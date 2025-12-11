@@ -2,9 +2,9 @@
 
 import { redirect } from 'next/navigation';
 
-import { auth } from '@lib/auth';
+import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
-import { LoginForm, RegForm } from '@/features/auth/schema/auth-forms.schemas';
+import { LoginForm, RegForm } from '@/features/auth/validation/auth.schema';
 
 export async function signUpAction(formData: RegForm) {
   const rawData = {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import useSignUp from '@/features/auth/Hooks/useSignUp';
+import useSignUp from '@/features/auth/hooks/useSignUp';
 
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
