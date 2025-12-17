@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { useSession, signOut } from '@/lib/auth/auth-client';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useSession, signOut } from '@/lib/auth/auth-client';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useHeader } from '@/hooks/useHeader';
 
 import {
   Calendar,
@@ -23,20 +23,18 @@ import {
 import { Button } from '@/components/ui/button';
 import { LoginModal } from '@/features/auth/components/login-modal';
 
-type HeaderProps = {
-  activeTab: 'schedule' | 'invoices';
-  onTabChange: (tab: 'schedule' | 'invoices') => void;
-};
+export function Header() {
+  const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get('tab');
 
-export function Header({ activeTab, onTabChange }: HeaderProps) {
   const {
-    data: session,
-    isPending, //loading state
-    error, //error object
-    refetch, //refetch the session
-  } = useSession();
+    showLoginModal,
+    setShowLoginModal,
+    scheduleHandler,
+    invoicesHandler,
+  } = useHeader({ activeTab });
 
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const user = session?.user;
   const router = useRouter();
 
@@ -51,7 +49,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
             <>
               <nav className='flex gap-1 bg-muted p-1 rounded-lg'>
                 <button
-                  onClick={() => onTabChange('schedule')}
+                  onClick={() => scheduleHandler()}
                   className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'schedule'
                       ? 'bg-card text-foreground shadow-sm'
@@ -62,7 +60,7 @@ export function Header({ activeTab, onTabChange }: HeaderProps) {
                   Schedule
                 </button>
                 <button
-                  onClick={() => onTabChange('invoices')}
+                  onClick={() => invoicesHandler()}
                   className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'invoices'
                       ? 'bg-card text-foreground shadow-sm'

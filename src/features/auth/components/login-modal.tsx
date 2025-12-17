@@ -20,9 +20,11 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ open, onOpenChange }: LoginModalProps) {
-  const { register, handleSubmit, errors, onSubmit } = useLogin({
-    onOpenChange,
-  });
+  const { register, handleSubmit, errors, onSubmit, GithubOnSubmit } = useLogin(
+    {
+      onOpenChange,
+    }
+  );
   // const { data: loginData, error: loginError, isLoading } = authClient.signIn;
 
   return (
@@ -69,7 +71,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
           <Button variant='outline' className='w-full'>
             Login with Google
           </Button>
-          <Button variant='outline' className='w-full'>
+          <Button variant='outline' className='w-full' onClick={GithubOnSubmit}>
             Login with GitHub
           </Button>
           <div>

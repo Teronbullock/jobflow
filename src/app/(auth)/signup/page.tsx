@@ -81,17 +81,11 @@ export default function SignUpForm() {
             </form>
           </CardContent>
           <CardFooter className='flex-col gap-4'>
-            <Button variant='outline' className='w-full'>
-              Login with Google
-            </Button>
-            <Button variant='outline' className='w-full'>
-              Sign Up with GitHub
-            </Button>
             <div>
               <span className='mr-1'>Have an account?</span>
-              <Link className='text-blue-600' href={'/login'}>
+              <Button variant='link' className='text-blue-600'>
                 Login
-              </Link>
+              </Button>
             </div>
           </CardFooter>
         </Card>

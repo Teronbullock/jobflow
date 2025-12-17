@@ -36,7 +36,7 @@ export default function useSignUp() {
         return;
       }
 
-      router.push('/dashboard');
+      router.push('/dashboard/schedule');
     } catch (error) {
       console.error('Network Error:', error);
       setError('root', { type: 'server', message: 'Authentication Failed' });

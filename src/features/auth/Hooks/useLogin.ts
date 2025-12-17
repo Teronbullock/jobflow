@@ -43,7 +43,7 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
       onOpenChange(false);
       reset();
 
-      router.push('/dashboard');
+      router.push('/dashboard/schedule');
     } catch (err) {
       console.error('Critical Network/Client Error during signIn:', err);
       setError('root', {
@@ -54,5 +54,31 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
     }
   };
 
-  return { register, handleSubmit, onSubmit, errors: errors };
+  const GithubOnSubmit = async () => {
+    try {
+      const { error } = await signIn.social({
+        provider: 'github',
+        callbackURL: '/dashboard/schedule',
+      });
+
+      if (error) {
+        setError('root', {
+          type: 'server',
+          message: error.message,
+        });
+        return;
+      }
+
+      onOpenChange(false);
+    } catch (err) {
+      console.error('Critical Network/Client Error during signIn:', err);
+      setError('root', {
+        type: 'catch',
+        message:
+          'There was a connection issue. Please check your internet or try again.',
+      });
+    }
+  };
+
+  return { register, handleSubmit, onSubmit, errors: errors, GithubOnSubmit };
 }
