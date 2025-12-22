@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   if (!session) {
     <div>You are not authorized to view this page.</div>;
-    router.push('/login');
+    router.push('/');
     return;
   }
 

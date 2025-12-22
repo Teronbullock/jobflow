@@ -27,7 +27,7 @@ export async function loginAction(formData: LoginForm) {
 
   await auth.api.signInEmail({ body: rawData });
 
-  redirect('/dashboard/schedule');
+  redirect('/dashboard?tab=schedule');
 }
 
 export async function signOutAction() {

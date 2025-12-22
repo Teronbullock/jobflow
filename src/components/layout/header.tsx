@@ -43,7 +43,7 @@ export function Header() {
       <header className='border-b border-border bg-card'>
         <div className='max-w-7xl mx-auto px-4 py-4 flex items-center justify-between'>
           <h1 className='text-xl font-semibold text-foreground'>
-            <Link href={user ? '/dashboard' : '/'}>CrewFlow</Link>
+            <Link href={user ? '/dashboard?tab=schedule' : '/'}>CrewFlow</Link>
           </h1>
           {user ? (
             <>

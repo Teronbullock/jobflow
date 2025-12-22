@@ -70,3 +70,7 @@ src/
     ```bash
     pnpm dev
     ```
+
+## Global constraints
+Do not introduce new tools or run formatters or linters.
+Only edit explicitly referenced files.

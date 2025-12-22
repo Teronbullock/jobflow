@@ -43,7 +43,7 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
       onOpenChange(false);
       reset();
 
-      router.push('/dashboard/schedule');
+      router.push('/dashboard?tab=schedule');
     } catch (err) {
       console.error('Critical Network/Client Error during signIn:', err);
       setError('root', {
@@ -58,7 +58,7 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
     try {
       const { error } = await signIn.social({
         provider: 'github',
-        callbackURL: '/dashboard/schedule',
+        callbackURL: '/dashboard?tab=schedule',
       });
 
       if (error) {
