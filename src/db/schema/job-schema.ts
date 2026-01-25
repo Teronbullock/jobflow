@@ -18,7 +18,7 @@ export const jobs = pgTable('jobs', {
   description: text('description'),
   date: date({ mode: 'date' }),
   time: time().notNull(),
-  assignTo: text('assignTo').references(() => crewMembers.companyId, {
+  assignTo: uuid('assignTo').references(() => crewMembers.id, {
     onUpdate: 'cascade',
     onDelete: 'set null',
   }),
@@ -43,7 +43,7 @@ export const jobRelations = relations(jobs, ({ one }) => ({
     fields: [jobs.assignTo],
     references: [crewMembers.id],
   }),
-  author: one(user, {
+  user: one(user, {
     fields: [jobs.userId],
     references: [user.id],
   }),

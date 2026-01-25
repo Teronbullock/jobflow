@@ -39,6 +39,8 @@ interface JobsContextType {
 
 const JobsContext = createContext<JobsContextType | undefined>(undefined);
 
+const crewMembers = ['Mike', 'Sarah', 'Tom', 'Lisa'];
+
 const initialJobs: Job[] = [
   {
     id: '1',
@@ -85,8 +87,6 @@ const initialJobs: Job[] = [
     amount: 175,
   },
 ];
-
-const crewMembers = ['Mike', 'Sarah', 'Tom', 'Lisa'];
 
 export function JobsProvider({ children }: { children: ReactNode }) {
   const [jobs, setJobs] = useState<Job[]>(initialJobs);

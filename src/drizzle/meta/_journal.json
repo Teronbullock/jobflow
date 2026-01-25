@@ -5,50 +5,22 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1761704859109,
-      "tag": "0000_sour_thena",
+      "when": 1766508754319,
+      "tag": "0000_complex_maverick",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1764967037386,
-      "tag": "0001_sweet_manta",
+      "when": 1767354052434,
+      "tag": "0001_calm_satana",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1764968684659,
-      "tag": "0002_moaning_warstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1765839569163,
-      "tag": "0003_blushing_wither",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1766000028245,
-      "tag": "0004_tense_the_call",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1766000308366,
-      "tag": "0005_bouncy_spectrum",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1766001268546,
-      "tag": "0006_keen_ben_grimm",
+      "when": 1767461720924,
+      "tag": "0002_damp_spacker_dave",
       "breakpoints": true
     }
   ]

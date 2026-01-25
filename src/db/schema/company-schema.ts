@@ -8,6 +8,7 @@ export const companies = pgTable('companies', {
   name: text('name').notNull(),
   userId: text('user_id')
     .notNull()
+    .unique()
     .references(() => user.id, { onDelete: 'cascade' }),
 });
 

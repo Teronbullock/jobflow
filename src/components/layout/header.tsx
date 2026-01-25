@@ -1,10 +1,10 @@
 'use client';
 
+import { type User as UserData, type Session } from 'better-auth';
 import Link from 'next/link';
-import { useSession, signOut } from '@/lib/auth/auth-client';
+import { signOut } from '@/lib/auth/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useHeader } from '@/hooks/useHeader';
-
 import {
   Calendar,
   Receipt,
@@ -23,8 +23,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { LoginModal } from '@/features/auth/components/login-modal';
 
-export function Header() {
-  const { data: session } = useSession();
+interface HeaderProps {
+  session: {
+    session: Session;
+    user: UserData;
+  } | null;
+}
+
+export function Header({ session }: HeaderProps) {
   const searchParams = useSearchParams();
   const activeTab = searchParams.get('tab');
 
@@ -33,6 +39,7 @@ export function Header() {
     setShowLoginModal,
     scheduleHandler,
     invoicesHandler,
+    handleRegister,
   } = useHeader({ activeTab });
 
   const user = session?.user;
@@ -109,7 +116,7 @@ export function Header() {
                       await signOut({
                         fetchOptions: {
                           onSuccess: () => {
-                            router.push('/'); // redirect to login page
+                            router.push('/');
                           },
                         },
                       })
@@ -135,7 +142,11 @@ export function Header() {
         </div>
       </header>
 
-      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
+      <LoginModal
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        handleRegister={handleRegister}
+      />
     </>
   );
 }

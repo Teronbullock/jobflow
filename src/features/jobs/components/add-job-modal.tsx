@@ -1,9 +1,6 @@
 'use client';
 
-import type React from 'react';
-
-import { useState } from 'react';
-import { useJobs } from '@/context/jobs-context';
+import { useJobModal } from '@/features/jobs/hooks/useJobModal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,81 +11,62 @@ interface AddJobModalProps {
 }
 
 export function AddJobModal({ onClose }: AddJobModalProps) {
-  const { addJob, crewMembers } = useJobs();
-  const [formData, setFormData] = useState({
-    client: '',
-    address: '',
-    description: '',
-    assignedTo: crewMembers[0],
-    date: new Date().toISOString().split('T')[0],
-    time: '09:00',
-    amount: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addJob({
-      ...formData,
-      amount: Number.parseFloat(formData.amount) || 0,
-      status: 'scheduled',
-    });
-    onClose();
-  };
-
+  const { register, handleSubmit, onSubmit, watch, crewMembers, errors } =
+    useJobModal(onClose);
+  console.log('errors', errors, 'ROOT', errors.root);
   return (
-    <Modal onClose={onClose} handleSubmit={handleSubmit}>
+    <Modal
+      onClose={onClose}
+      handleSubmit={handleSubmit(onSubmit)}
+      headerText='Add New Job'
+    >
       <div>
         <Label htmlFor='client'>Client Name</Label>
         <Input
-          id='client'
-          value={formData.client}
-          onChange={e => setFormData({ ...formData, client: e.target.value })}
+          id='clientName'
           placeholder='e.g., Johnson Family'
-          required
+          {...register('clientName')}
         />
+        {errors.clientName && (
+          <span className='text-red-500'>{errors.clientName.message}</span>
+        )}
       </div>
       <div>
         <Label htmlFor='address'>Address</Label>
         <Input
           id='address'
-          value={formData.address}
-          onChange={e => setFormData({ ...formData, address: e.target.value })}
           placeholder='e.g., 123 Oak Street'
-          required
+          {...register('address')}
         />
+        {errors.address && (
+          <span className='text-red-500'>{errors.address.message}</span>
+        )}
       </div>
       <div>
         <Label htmlFor='description'>Job Description</Label>
         <Input
           id='description'
-          value={formData.description}
-          onChange={e =>
-            setFormData({ ...formData, description: e.target.value })
-          }
           placeholder='e.g., Weekly lawn maintenance'
-          required
+          {...register('description')}
         />
+        {errors.description && (
+          <span className='text-red-500'>{errors.description.message}</span>
+        )}
       </div>
       <div className='grid grid-cols-2 gap-4'>
         <div>
           <Label htmlFor='date'>Date</Label>
-          <Input
-            id='date'
-            type='date'
-            value={formData.date}
-            onChange={e => setFormData({ ...formData, date: e.target.value })}
-            required
-          />
+          <Input id='date' type='date' {...register('date')} />
+          {errors.date && (
+            <span className='text-red-500'>{errors.date.message}</span>
+          )}
         </div>
         <div>
           <Label htmlFor='time'>Time</Label>
-          <Input
-            id='time'
-            type='time'
-            value={formData.time}
-            onChange={e => setFormData({ ...formData, time: e.target.value })}
-            required
-          />
+          <Input id='time' type='time' {...register('time')} />
+          {errors.time && (
+            <span className='text-red-500'>{errors.time.message}</span>
+          )}
         </div>
       </div>
       <div className='grid grid-cols-2 gap-4'>
@@ -96,11 +74,8 @@ export function AddJobModal({ onClose }: AddJobModalProps) {
           <Label htmlFor='assignedTo'>Assign To</Label>
           <select
             id='assignedTo'
-            value={formData.assignedTo}
-            onChange={e =>
-              setFormData({ ...formData, assignedTo: e.target.value })
-            }
             className='w-full h-10 px-3 rounded-md border border-input bg-background text-sm'
+            {...register('assignedTo')}
           >
             {crewMembers.map(member => (
               <option key={member} value={member}>
@@ -114,12 +89,14 @@ export function AddJobModal({ onClose }: AddJobModalProps) {
           <Input
             id='amount'
             type='number'
-            value={formData.amount}
-            onChange={e => setFormData({ ...formData, amount: e.target.value })}
             placeholder='150'
-            required
+            {...register('amount')}
           />
+          {errors.amount && (
+            <span className='text-red-500'>{errors.amount.message}</span>
+          )}
         </div>
+        {/* {errors && <span className='text-red-500'>{errors.root.message}</span>} */}
       </div>
       <div className='flex gap-3 pt-2'>
         <Button

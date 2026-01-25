@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -15,7 +15,6 @@ export function useHeader({ activeTab }: useHeaderProps) {
     if (activeTab === 'schedule') {
       return;
     }
-
     router.push('/dashboard?tab=schedule');
   }
 
@@ -23,8 +22,12 @@ export function useHeader({ activeTab }: useHeaderProps) {
     if (activeTab === 'invoices') {
       return;
     }
-
     router.push('/dashboard?tab=invoices');
+  }
+
+  function handleRegister() {
+    setShowLoginModal(false);
+    router.push('/signup');
   }
 
   return {
@@ -32,5 +35,6 @@ export function useHeader({ activeTab }: useHeaderProps) {
     setShowLoginModal,
     scheduleHandler,
     invoicesHandler,
+    handleRegister,
   };
 }

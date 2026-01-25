@@ -17,9 +17,14 @@ import { Field, FieldError, FieldLabel } from '@components/ui/field';
 interface LoginModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  handleRegister: () => void;
 }
 
-export function LoginModal({ open, onOpenChange }: LoginModalProps) {
+export function LoginModal({
+  open,
+  onOpenChange,
+  handleRegister,
+}: LoginModalProps) {
   const { register, handleSubmit, errors, onSubmit, GithubOnSubmit } = useLogin(
     {
       onOpenChange,
@@ -76,9 +81,14 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
           </Button>
           <div>
             <span className='mr-1'>No account?</span>
-            <Link className='text-blue-600' href={'/signup'}>
+            <Button
+              type='button'
+              variant='ghost'
+              className='text-blue-600 hover:bg-unset!'
+              onClick={handleRegister}
+            >
               Register
-            </Link>
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>

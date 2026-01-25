@@ -26,6 +26,7 @@ export function ScheduleView() {
         setSelectedCrew={setSelectedCrew}
         crewMembers={crewMembers}
         getCrewStatus={getCrewStatus}
+        setShowAddJob={setShowAddJob}
       />
       {/* Today's Schedule */}
       <div>
@@ -69,7 +70,7 @@ export function ScheduleView() {
             {upcomingJobs
               .sort(
                 (a, b) =>
-                  a.date.localeCompare(b.date) || a.time.localeCompare(b.time)
+                  a.date.localeCompare(b.date) || a.time.localeCompare(b.time),
               )
               .slice(0, 5)
               .map(job => (
