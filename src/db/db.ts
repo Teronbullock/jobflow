@@ -17,10 +17,8 @@ const testDbConnection = async () => {
   } catch (err) {
     console.error(
       'Error: Could not connect to the database. Server will not start.',
-      err
+      err,
     );
     throw err;
   }
 };
-
-await testDbConnection();

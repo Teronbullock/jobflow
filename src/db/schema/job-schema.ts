@@ -1,5 +1,5 @@
 import { user } from '@/db/schema/auth-schema';
-import { companies, crewMembers } from '@/db/schema/company-schema';
+import { company, crewMember } from '@/db/schema/company-schema';
 import { relations } from 'drizzle-orm';
 import {
   pgTable,
@@ -18,7 +18,7 @@ export const jobs = pgTable('jobs', {
   description: text('description'),
   date: date({ mode: 'date' }),
   time: time().notNull(),
-  assignTo: uuid('assignTo').references(() => crewMembers.id, {
+  assignTo: uuid('assignTo').references(() => crewMember.id, {
     onUpdate: 'cascade',
     onDelete: 'set null',
   }),
@@ -31,17 +31,17 @@ export const jobs = pgTable('jobs', {
     .references(() => user.id, { onDelete: 'cascade' }),
   companyId: uuid('company_id')
     .notNull()
-    .references(() => companies.id, { onDelete: 'cascade' }),
+    .references(() => company.id, { onDelete: 'cascade' }),
 });
 
 export const jobRelations = relations(jobs, ({ one }) => ({
-  company: one(companies, {
+  company: one(company, {
     fields: [jobs.companyId],
-    references: [companies.id],
+    references: [company.id],
   }),
-  crew: one(crewMembers, {
+  crew: one(crewMember, {
     fields: [jobs.assignTo],
-    references: [crewMembers.id],
+    references: [crewMember.id],
   }),
   user: one(user, {
     fields: [jobs.userId],

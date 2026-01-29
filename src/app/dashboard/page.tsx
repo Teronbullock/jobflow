@@ -9,7 +9,7 @@ export default async function DashboardPage() {
     redirect('/');
   }
 
-  const companyId = auth?.company.id;
+  const { companyId } = auth.user;
 
   if (!companyId) {
     redirect('/getting-started');

@@ -1,9 +1,11 @@
 'use server';
 
 import { db } from '@/db/db';
-import { companies } from '@/db/schema/company-schema';
+import { company } from '@/db/schema/company-schema';
+import { user } from '@/db/schema/auth-schema';
 import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
+import { eq } from 'drizzle-orm';
 
 export const createCompany = async (companyName: string) => {
   const session = await auth.api.getSession({
@@ -14,13 +16,45 @@ export const createCompany = async (companyName: string) => {
     throw new Error('User not authenticated');
   }
 
-  const newCompany = await db
-    .insert(companies)
-    .values({
-      name: companyName,
-      userId: session.user.id,
-    })
-    .returning();
+  try {
+    const newCompany = await db
+      .insert(company)
+      .values({
+        name: companyName,
+      })
+      .returning();
 
-  return newCompany;
+    return newCompany;
+  } catch (err) {
+    console.error('Error creating company:', err);
+    return null;
+  }
+};
+
+export const updateUserCompanyId = async (companyId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('User not authenticated');
+  }
+
+  try {
+    const res = await db
+      .update(user)
+      .set({
+        companyId: companyId,
+      })
+      .where(eq(user.id, userId))
+      .returning();
+
+    return res;
+  } catch (err) {
+    console.error('Error updating user company ID:', err);
+
+    return null;
+  }
 };

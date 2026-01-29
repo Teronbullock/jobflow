@@ -1,11 +1,8 @@
 import { betterAuth } from 'better-auth';
-import { customSession } from 'better-auth/plugins';
 import { nextCookies } from 'better-auth/next-js';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { eq } from 'drizzle-orm';
 import { db } from '@db/db';
 import * as schema from '@/db/schema/auth-schema';
-import { companies } from '@/db/schema/company-schema';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -14,6 +11,18 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+  },
+  user: {
+    additionalFields: {
+      companyId: {
+        type: 'number',
+        input: false,
+      },
+      role: {
+        type: 'string',
+        input: false,
+      },
+    },
   },
   socialProviders: {
     github: {
@@ -37,26 +46,7 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [
-    nextCookies(),
-    customSession(async ({ user, session }) => {
-      const companyId = await db
-        .select({ id: companies.id })
-        .from(companies)
-        .where(eq(companies.userId, user.id));
-
-      return {
-        company: {
-          id: companyId[0].id,
-        },
-        user: {
-          ...user,
-          newField: 'newField',
-        },
-        session,
-      };
-    }),
-  ],
+  plugins: [nextCookies()],
 });
 
 export type User = typeof auth.$Infer.Session.user;

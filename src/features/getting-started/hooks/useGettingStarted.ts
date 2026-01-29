@@ -1,6 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { createCompany } from '../actions/gettingStarted.actions';
+import {
+  createCompany,
+  updateUserCompanyId,
+} from '../actions/gettingStarted.actions';
 import { useRouter } from 'next/navigation';
 
 export const useGettingStarted = () => {
@@ -14,11 +17,22 @@ export const useGettingStarted = () => {
   };
 
   const handleSubmit = async () => {
+    if (!companyName.trim()) {
+      setError('Company name is required');
+      return;
+    }
+
     try {
       const res = await createCompany(companyName);
 
       if (!res) {
-        throw new Error('NOT_FOUND');
+        throw new Error('company not created');
+      }
+
+      const user = await updateUserCompanyId(res[0].id);
+
+      if (!user) {
+        throw new Error('company not created for user');
       }
 
       router.push('/dashboard?tab=schedule');
