@@ -1,11 +1,12 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth/auth-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  LoginForm,
-  LoginFormSchema,
+  BaseAuthSchema,
+  type BaseAuth,
 } from '@/features/auth/validation/auth.schema';
 
 interface useLoginProps {
@@ -19,13 +20,13 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
     setError,
     formState: { errors },
     reset,
-  } = useForm<LoginForm>({
-    resolver: zodResolver(LoginFormSchema),
+  } = useForm<BaseAuth>({
+    resolver: zodResolver(BaseAuthSchema),
   });
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginForm> = async formData => {
+  const onSubmit: SubmitHandler<BaseAuth> = async formData => {
     try {
       const { error } = await signIn.email({
         email: formData.email,
@@ -44,6 +45,7 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
       reset();
 
       router.push('/dashboard?tab=schedule');
+      router.refresh();
     } catch (err) {
       console.error('Critical Network/Client Error during signIn:', err);
       setError('root', {

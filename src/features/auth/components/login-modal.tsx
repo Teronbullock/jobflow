@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import useLogin from '@/features/auth/hooks/useLogin';
 import {
   Dialog,
@@ -28,9 +27,8 @@ export function LoginModal({
   const { register, handleSubmit, errors, onSubmit, GithubOnSubmit } = useLogin(
     {
       onOpenChange,
-    }
+    },
   );
-  // const { data: loginData, error: loginError, isLoading } = authClient.signIn;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -44,29 +42,35 @@ export function LoginModal({
             <FieldLabel htmlFor='email'>Email</FieldLabel>
             <Input
               id='email'
-              className='mb-4'
+              className='mb-2'
               type='email'
               placeholder='enter email'
               {...register('email')}
             />
+          </Field>
+          <Field className='min-h-5 mb-2'>
             {errors.email && <FieldError errors={[errors.email]} />}
           </Field>
           <Field>
             <FieldLabel htmlFor='password'>Password</FieldLabel>
             <Input
               id='password'
-              className='mb-4'
+              className='mb-2'
               type='password'
               placeholder='enter password'
               {...register('password')}
             />
-            {errors.password && <FieldError errors={[errors.password]} />}
+          </Field>
+          <Field className='min-h-14 mb-2'>
+            {errors.password && (
+              <FieldError className='pb-0!' errors={[errors.password]} />
+            )}
+            {errors.root && <FieldError errors={[errors.root]} />}
           </Field>
           <Field>
             <Button type='submit' className='w-full'>
               Login
             </Button>
-            {errors.root && <FieldError errors={[errors.root]} />}
           </Field>
           <Button type='button' variant='ghost' className='text-sm'>
             Forgot password?

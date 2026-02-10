@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import {
   createCompany,
   updateUserCompanyId,
-  checkUserCompany,
 } from '../actions/gettingStarted.actions';
-import { useRouter } from 'next/navigation';
 
 export const useGettingStarted = () => {
   const [companyName, setCompanyName] = useState('');
@@ -49,17 +49,6 @@ export const useGettingStarted = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const checkExistingCompany = async () => {
-      const hasCompany = await checkUserCompany();
-      if (hasCompany) {
-        router.push('/dashboard?tab=schedule');
-      }
-    };
-
-    checkExistingCompany();
-  }, [router]);
 
   return {
     companyName,

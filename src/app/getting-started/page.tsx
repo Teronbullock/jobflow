@@ -1,5 +1,5 @@
 import { GettingStartedForm } from '@/features/getting-started/components/getting-started-form';
-import { getSession, auth } from '@/lib/auth';
+import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 export default async function gettingStartedPage() {

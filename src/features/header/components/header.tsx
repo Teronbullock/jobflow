@@ -44,7 +44,8 @@ export function Header({ session }: HeaderProps) {
 
   const user = session?.user;
   const router = useRouter();
-
+  console.log('user', user);
+  console.log('session', session);
   return (
     <>
       <header className='border-b border-border bg-card'>
@@ -117,6 +118,7 @@ export function Header({ session }: HeaderProps) {
                         fetchOptions: {
                           onSuccess: () => {
                             router.push('/');
+                            router.refresh();
                           },
                         },
                       })
