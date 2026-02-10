@@ -1,14 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   createCompany,
   updateUserCompanyId,
+  checkUserCompany,
 } from '../actions/gettingStarted.actions';
 import { useRouter } from 'next/navigation';
 
 export const useGettingStarted = () => {
   const [companyName, setCompanyName] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +24,9 @@ export const useGettingStarted = () => {
       setError('Company name is required');
       return;
     }
+
+    setIsLoading(true);
+    setError('');
 
     try {
       const res = await createCompany(companyName);
@@ -38,13 +44,27 @@ export const useGettingStarted = () => {
       router.push('/dashboard?tab=schedule');
     } catch (error) {
       console.error('Failed to create company:', error);
-      setError('Error ');
+      setError('Failed to create company. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const checkExistingCompany = async () => {
+      const hasCompany = await checkUserCompany();
+      if (hasCompany) {
+        router.push('/dashboard?tab=schedule');
+      }
+    };
+
+    checkExistingCompany();
+  }, [router]);
 
   return {
     companyName,
     error,
+    isLoading,
     handleOnChange,
     handleSubmit,
   };

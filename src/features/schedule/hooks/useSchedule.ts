@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Job, useJobs } from '@/context/jobs-context';
+import { useQuery } from '@tanstack/react-query';
 
 export function useSchedule() {
   const { jobs, crewMembers } = useJobs();
@@ -16,12 +17,12 @@ export function useSchedule() {
   const todayJobs = filteredJobs.filter(job => job.date === today);
   const upcomingJobs = filteredJobs.filter(job => job.date > today);
   const completedJobs = filteredJobs.filter(
-    job => job.status === 'completed' || job.status === 'invoiced'
+    job => job.status === 'completed' || job.status === 'invoiced',
   );
 
   const getCrewStatus = (member: string) => {
     const memberJobs = jobs.filter(
-      job => job.assignedTo === member && job.date === today
+      job => job.assignedTo === member && job.date === today,
     );
     const inProgress = memberJobs.find(job => job.status === 'in-progress');
 

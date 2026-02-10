@@ -5,36 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1766508754319,
-      "tag": "0000_complex_maverick",
+      "when": 1770021950108,
+      "tag": "0000_true_carnage",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1767354052434,
-      "tag": "0001_calm_satana",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1767461720924,
-      "tag": "0002_damp_spacker_dave",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1769692788473,
-      "tag": "0003_tense_energizer",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1769698238208,
-      "tag": "0004_omniscient_polaris",
+      "when": 1770678700982,
+      "tag": "0001_minor_inertia",
       "breakpoints": true
     }
   ]

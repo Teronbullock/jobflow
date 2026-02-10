@@ -1,5 +1,5 @@
-import { user } from '@/db/schema/auth-schema';
-import { company, crewMember } from '@/db/schema/company-schema';
+import { user } from '@/db/schema/auth.schema';
+import { company, crewMember } from '@/db/schema/company.schema';
 import { relations } from 'drizzle-orm';
 import {
   pgTable,

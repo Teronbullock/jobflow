@@ -1,7 +1,12 @@
 import 'server-only';
 import { headers } from 'next/headers';
-import { auth } from '@/lib/auth/auth';
+import { auth } from './auth';
 
+/**
+ * # getSessions
+ *
+ * This functions wraps the better-auth getSession method with a tryCatch.
+ */
 export const getSession = async () => {
   try {
     const data = await auth.api.getSession({

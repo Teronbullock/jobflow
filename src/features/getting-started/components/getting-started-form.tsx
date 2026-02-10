@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useGettingStarted } from '../hooks/useGettingStarted';
 
 export const GettingStartedForm = () => {
-  const { companyName, handleOnChange, handleSubmit, error } =
+  const { companyName, handleOnChange, handleSubmit, error, isLoading } =
     useGettingStarted();
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -29,7 +29,7 @@ export const GettingStartedForm = () => {
                   Thank you for signing up!
                 </p>
                 <p className='text-muted-foreground'>
-                  Let's get started by setting up your company.
+                  Let&apos;s get started by setting up your company.
                 </p>
                 <div className='grid grid-cols-1 items-center gap-4'>
                   <Label htmlFor='company-name' className='text-md'>
@@ -40,10 +40,13 @@ export const GettingStartedForm = () => {
                     value={companyName}
                     onChange={handleOnChange}
                     className='col-span-3'
+                    disabled={isLoading}
                   />
                 </div>
                 {error && <p className='text-red-500'>{error}</p>}
-                <Button type='submit'>Save</Button>
+                <Button type='submit' disabled={isLoading}>
+                  {isLoading ? 'Saving...' : 'Save'}
+                </Button>
               </div>
             </form>
           </CardContent>

@@ -1,4 +1,4 @@
-import { user } from '@/db/schema/auth-schema';
+import { user } from '@/db/schema/auth.schema';
 import { jobs } from '@/db/schema/job-schema';
 import { relations } from 'drizzle-orm';
 import { pgTable, text, uuid } from 'drizzle-orm/pg-core';

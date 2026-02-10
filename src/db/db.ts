@@ -10,7 +10,7 @@ const connectionString = process.env.DATABASE_URL!;
 export const client = postgres(connectionString, { prepare: false });
 export const db = drizzle(client);
 
-const testDbConnection = async () => {
+export const testDbConnection = async () => {
   try {
     await db.execute(sql`select 1`);
     console.log('Database connection established.');

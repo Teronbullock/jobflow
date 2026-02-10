@@ -39,8 +39,6 @@ interface JobsContextType {
 
 const JobsContext = createContext<JobsContextType | undefined>(undefined);
 
-const crewMembers = ['Mike', 'Sarah', 'Tom', 'Lisa'];
-
 const initialJobs: Job[] = [
   {
     id: '1',
@@ -102,7 +100,7 @@ export function JobsProvider({ children }: { children: ReactNode }) {
 
   const updateJobStatus = (id: string, status: JobStatus) => {
     setJobs(prev =>
-      prev.map(job => (job.id === id ? { ...job, status } : job))
+      prev.map(job => (job.id === id ? { ...job, status } : job)),
     );
   };
 
@@ -125,13 +123,13 @@ export function JobsProvider({ children }: { children: ReactNode }) {
 
   const markInvoiceSent = (id: string) => {
     setInvoices(prev =>
-      prev.map(inv => (inv.id === id ? { ...inv, status: 'sent' } : inv))
+      prev.map(inv => (inv.id === id ? { ...inv, status: 'sent' } : inv)),
     );
   };
 
   const markInvoicePaid = (id: string) => {
     setInvoices(prev =>
-      prev.map(inv => (inv.id === id ? { ...inv, status: 'paid' } : inv))
+      prev.map(inv => (inv.id === id ? { ...inv, status: 'paid' } : inv)),
     );
   };
 
@@ -145,7 +143,6 @@ export function JobsProvider({ children }: { children: ReactNode }) {
         createInvoice,
         markInvoiceSent,
         markInvoicePaid,
-        crewMembers,
       }}
     >
       {children}

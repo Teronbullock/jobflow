@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Plus, Users } from 'lucide-react';
-import { job } from '@/db/schema/job-schema';
+// import { job } from '@/db/schema/job-schema';
+import { useCrewManger } from '@/features/crew/hooks';
+import { AddCrewModal } from '@/features/crew/components';
 
 interface CrewStatusProps {
   selectedCrew: string;
@@ -13,14 +15,14 @@ interface CrewStatusProps {
 export function CrewStatus({
   selectedCrew,
   setSelectedCrew,
-  setShowAddJob,
-  crewMembers,
   getCrewStatus,
 }: CrewStatusProps) {
+  const { crewMembers, setShowCrew, showCrew } = useCrewManger();
+
   return (
     <>
       <div className='flex items-center justify-end gap-2 mb-4'>
-        <Button onClick={() => setShowAddJob(true)} size='sm'>
+        <Button onClick={() => setShowCrew(true)} size='sm'>
           <Plus className='w-4 h-4 mr-1' />
           Add crew
         </Button>
@@ -52,8 +54,8 @@ export function CrewStatus({
                       status === 'busy'
                         ? 'bg-amber-500'
                         : status === 'available'
-                        ? 'bg-emerald-500'
-                        : 'bg-muted-foreground'
+                          ? 'bg-emerald-500'
+                          : 'bg-muted-foreground'
                     }`}
                   />
                   <span className='font-medium text-foreground'>{member}</span>
@@ -62,13 +64,14 @@ export function CrewStatus({
                   {status === 'busy' && job
                     ? `At: ${job.address}`
                     : status === 'available' && job
-                    ? `Next: ${job.time}`
-                    : 'No jobs today'}
+                      ? `Next: ${job.time}`
+                      : 'No jobs today'}
                 </p>
               </button>
             );
           })}
         </div>
+        {showCrew && <AddCrewModal onClose={() => setShowCrew(false)} />}
       </div>
     </>
   );
