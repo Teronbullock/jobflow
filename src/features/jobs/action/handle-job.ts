@@ -3,7 +3,7 @@
 import { db } from '@/db/db';
 import { jobs } from '@/db/schema/job-schema';
 import { type JobSchema } from '@/lib/validations/schemas/job.schemas';
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/features/auth/lib/auth';
 import { headers } from 'next/headers';
 
 export const postAddJob = async (data: JobSchema) => {

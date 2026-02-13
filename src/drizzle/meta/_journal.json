@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1770021950108,
-      "tag": "0000_true_carnage",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1770678700982,
-      "tag": "0001_minor_inertia",
+      "when": 1770828690442,
+      "tag": "0000_typical_shinko_yamashiro",
       "breakpoints": true
     }
   ]

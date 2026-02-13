@@ -1,34 +1,11 @@
 'use server';
 
 import { db } from '@/db/db';
-import { company } from '@/db/schema/company.schema';
-import { user } from '@/db/schema/auth.schema';
-import { auth } from '@/lib/auth/auth';
+
+import { user } from '@/db/schema/auth-schema';
+import { auth } from '@/features/auth/lib/auth';
 import { headers } from 'next/headers';
 import { eq } from 'drizzle-orm';
-
-export const checkUserCompany = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session?.user?.id) {
-    return false;
-  }
-
-  try {
-    const userRecord = await db
-      .select()
-      .from(user)
-      .where(eq(user.id, session.user.id))
-      .limit(1);
-
-    return userRecord.length > 0 && userRecord[0].companyId !== null;
-  } catch (err) {
-    console.error('Error checking user company:', err);
-    return false;
-  }
-};
 
 export const createCompany = async (companyName: string) => {
   const session = await auth.api.getSession({
@@ -40,44 +17,76 @@ export const createCompany = async (companyName: string) => {
   }
 
   try {
-    const newCompany = await db
-      .insert(company)
-      .values({
+    const data = await auth.api.createOrganization({
+      headers: await headers(),
+      body: {
         name: companyName,
-      })
-      .returning();
+        slug: companyName.toLowerCase().replace(/\s+/g, '-'),
+        userId: session.user.id,
+        keepCurrentActiveOrganization: false,
+      },
+    });
 
-    return newCompany;
+    if (!data) {
+      throw new Error('API failed to return a response');
+    }
+
+    return data;
   } catch (err) {
-    console.error('Error creating company:', err);
+    const error = err instanceof Error ? err : new Error(String(err));
+
+    console.error('Error creating company:', error);
     return null;
   }
 };
 
-export const updateUserCompanyId = async (companyId: string) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+// export const checkUserCompany = async () => {
+//   const session = await auth.api.getSession({
+//     headers: await headers(),
+//   });
 
-  const userId = session?.user?.id;
+//   if (!session?.user?.id) {
+//     return false;
+//   }
 
-  if (!userId) {
-    throw new Error('User not authenticated');
-  }
+//   try {
+//     const userRecord = await db
+//       .select()
+//       .from(user)
+//       .where(eq(user.id, session.user.id))
+//       .limit(1);
 
-  try {
-    const res = await db
-      .update(user)
-      .set({
-        companyId: companyId,
-      })
-      .where(eq(user.id, userId))
-      .returning();
+//     // return userRecord.length > 0 && userRecord[0].companyId !== null;
+//   } catch (err) {
+//     console.error('Error checking user company:', err);
+//     return false;
+//   }
+// };
 
-    return res;
-  } catch (err) {
-    console.error('Error updating user company ID:', err);
+// export const updateUserCompanyId = async (companyId: string) => {
+//   const session = await auth.api.getSession({
+//     headers: await headers(),
+//   });
 
-    return null;
-  }
-};
+//   const userId = session?.user?.id;
+
+//   if (!userId) {
+//     throw new Error('User not authenticated');
+//   }
+
+//   try {
+//     const res = await db
+//       .update(user)
+//       .set({
+//         companyId: companyId,
+//       })
+//       .where(eq(user.id, userId))
+//       .returning();
+
+//     return res;
+//   } catch (err) {
+//     console.error('Error updating user company ID:', err);
+
+//     return null;
+//   }
+// };

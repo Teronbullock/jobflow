@@ -1,6 +1,6 @@
 'use client';
 
-import useLogin from '@/features/auth/hooks/useLogin';
+import useLogin from '@/features/auth/hooks/use-login';
 import {
   Dialog,
   DialogContent,

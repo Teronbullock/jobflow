@@ -1,5 +1,5 @@
 {
-  "id": "2514289e-d153-47e4-91cd-0915c521c98e",
+  "id": "e661852c-e2d0-4449-90c3-4ff050579de0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -561,12 +561,6 @@
           "notNull": true,
           "default": "now()"
         },
-        "company_id": {
-          "name": "company_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
         "role": {
           "name": "role",
           "type": "text",
@@ -657,42 +651,15 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.company": {
-      "name": "company",
+    "public.client": {
+      "name": "client",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.crew_member": {
-      "name": "crew_member",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
           "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -700,21 +667,47 @@
           "primaryKey": false,
           "notNull": true
         },
-        "company_id": {
-          "name": "company_id",
-          "type": "uuid",
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "crew_member_company_id_company_id_fk": {
-          "name": "crew_member_company_id_company_id_fk",
-          "tableFrom": "crew_member",
-          "tableTo": "company",
+        "client_organization_id_organization_id_fk": {
+          "name": "client_organization_id_organization_id_fk",
+          "tableFrom": "client",
+          "tableTo": "organization",
           "columnsFrom": [
-            "company_id"
+            "organization_id"
           ],
           "columnsTo": [
             "id"
@@ -740,17 +733,11 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "client_name": {
-          "name": "client_name",
+        "client_id": {
+          "name": "client_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "address": {
-          "name": "address",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "description": {
           "name": "description",
@@ -770,9 +757,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "assignTo": {
-          "name": "assignTo",
-          "type": "uuid",
+        "assign_to": {
+          "name": "assign_to",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -789,34 +776,28 @@
           "notNull": false,
           "default": "'Scheduled'"
         },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "company_id": {
-          "name": "company_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "jobs_assignTo_crew_member_id_fk": {
-          "name": "jobs_assignTo_crew_member_id_fk",
+        "jobs_client_id_client_id_fk": {
+          "name": "jobs_client_id_client_id_fk",
           "tableFrom": "jobs",
-          "tableTo": "crew_member",
+          "tableTo": "client",
           "columnsFrom": [
-            "assignTo"
+            "client_id"
           ],
           "columnsTo": [
             "id"
@@ -824,25 +805,25 @@
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
-        "jobs_user_id_user_id_fk": {
-          "name": "jobs_user_id_user_id_fk",
+        "jobs_assign_to_member_id_fk": {
+          "name": "jobs_assign_to_member_id_fk",
           "tableFrom": "jobs",
-          "tableTo": "user",
+          "tableTo": "member",
           "columnsFrom": [
-            "user_id"
+            "assign_to"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onDelete": "set null",
+          "onUpdate": "cascade"
         },
-        "jobs_company_id_company_id_fk": {
-          "name": "jobs_company_id_company_id_fk",
+        "jobs_organization_id_organization_id_fk": {
+          "name": "jobs_organization_id_organization_id_fk",
           "tableFrom": "jobs",
-          "tableTo": "company",
+          "tableTo": "organization",
           "columnsFrom": [
-            "company_id"
+            "organization_id"
           ],
           "columnsTo": [
             "id"

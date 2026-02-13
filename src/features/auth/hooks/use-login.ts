@@ -1,11 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { signIn } from '@/lib/auth/auth-client';
+import { signIn } from '@/features/auth/lib/auth-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  BaseAuthSchema,
+  baseAuthSchema,
   type BaseAuth,
 } from '@/features/auth/validation/auth.schema';
 
@@ -21,7 +21,7 @@ export default function useLogin({ onOpenChange }: useLoginProps) {
     formState: { errors },
     reset,
   } = useForm<BaseAuth>({
-    resolver: zodResolver(BaseAuthSchema),
+    resolver: zodResolver(baseAuthSchema),
   });
 
   const router = useRouter();

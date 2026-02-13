@@ -1,6 +1,6 @@
 'use client';
 
-import useSignUp from '@/features/auth/hooks/useSignUp';
+import useSignUp from '@/features/auth/hooks/use-signup';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
 import {

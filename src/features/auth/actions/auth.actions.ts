@@ -4,9 +4,10 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
-import { LoginForm, RegForm } from '@/features/auth/validation/auth.schema';
+import { RegAuth, type BaseAuth } from '@/features/auth/validation/auth.schema';
+import { refresh } from 'next/cache';
 
-export async function signUpAction(formData: RegForm) {
+export async function signUpAction(formData: RegAuth) {
   const rawData = {
     name: String(formData.name ?? ''),
     email: String(formData.email ?? ''),
@@ -16,10 +17,11 @@ export async function signUpAction(formData: RegForm) {
 
   await auth.api.signUpEmail({ body: rawData });
 
-  redirect('/');
+  redirect('/dashboard?tab=schedule');
+  refresh();
 }
 
-export async function loginAction(formData: LoginForm) {
+export async function loginAction(formData: BaseAuth) {
   const rawData = {
     email: String(formData.email ?? ''),
     password: String(formData.password ?? ''),
@@ -28,6 +30,7 @@ export async function loginAction(formData: LoginForm) {
   await auth.api.signInEmail({ body: rawData });
 
   redirect('/dashboard?tab=schedule');
+  refresh();
 }
 
 export async function signOutAction() {
@@ -36,4 +39,5 @@ export async function signOutAction() {
   });
 
   redirect('/');
+  refresh();
 }

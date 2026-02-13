@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/features/header';
-import { getSession } from '@/lib/auth/auth-helper';
 import { Providers } from '@/context/jobs-query-provider';
+import TanStackProvider from '@/lib/providers/tanstack.provider';
+import { getSession, hasOrganization } from '@/features/auth/lib/auth-helper';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,17 +26,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
+  const [session, sessionError] = await getSession();
+  const [hasOrg, orgErr] = await hasOrganization();
+
+  if (sessionError || orgErr || !session) {
+    console.error(sessionError);
+    return null;
+  }
 
   return (
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          <Header session={session} />
-          {children}
-        </Providers>
+        <TanStackProvider>
+          <Providers>
+            <Header sessionData={session} hasOrg={hasOrg} />
+            {children}
+          </Providers>
+        </TanStackProvider>
       </body>
     </html>
   );

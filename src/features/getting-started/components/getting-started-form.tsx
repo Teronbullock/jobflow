@@ -7,8 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useGettingStarted } from '@/features/getting-started/hooks/useGettingStarted';
 
 export const GettingStartedForm = () => {
-  const { handleSubmit, companyName, handleOnChange, error, isLoading } =
-    useGettingStarted();
+  const { handleSubmit, onSubmit, register, errors } = useGettingStarted();
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen py-2'>
@@ -18,7 +17,7 @@ export const GettingStartedForm = () => {
             <CardTitle>Welcome to Jobflow!</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className='flex flex-col'>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
               <div className='grid gap-3 py-1'>
                 <p className='text-muted-foreground'>
                   Thank you for signing up!
@@ -32,16 +31,20 @@ export const GettingStartedForm = () => {
                   </Label>
                   <Input
                     id='company-name'
-                    value={companyName}
-                    onChange={handleOnChange}
-                    className='col-span-3'
-                    disabled={isLoading}
+                    {...register('companyName', { required: true })}
                   />
                 </div>
-                {error && <p className='text-red-500'>{error}</p>}
-                <Button type='submit' disabled={isLoading}>
-                  {isLoading ? 'Saving...' : 'Save'}
-                </Button>
+                <div className='min-h-15'>
+                  {errors && (
+                    <>
+                      <p className='text-red-500 mb-2'>
+                        {errors.companyName?.message}
+                      </p>
+                      <p className='text-red-500'>{errors.root?.message}</p>
+                    </>
+                  )}
+                </div>
+                <Button type='submit'>Save</Button>
               </div>
             </form>
           </CardContent>

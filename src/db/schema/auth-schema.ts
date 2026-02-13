@@ -12,9 +12,10 @@ export const user = pgTable('user', {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  companyId: text('company_id'),
   role: text('role'),
 });
+
+export const TypeUser = typeof user.$inferInsert;
 
 export const session = pgTable(
   'session',
@@ -35,6 +36,8 @@ export const session = pgTable(
   },
   table => [index('session_userId_idx').on(table.userId)],
 );
+
+export const TypeSession = typeof session.$inferInsert;
 
 export const account = pgTable(
   'account',
@@ -59,6 +62,8 @@ export const account = pgTable(
   },
   table => [index('account_userId_idx').on(table.userId)],
 );
+
+export const TypeAccount = typeof account.$inferInsert;
 
 export const verification = pgTable(
   'verification',
@@ -85,6 +90,8 @@ export const organization = pgTable('organization', {
   metadata: text('metadata'),
 });
 
+export const TypeOrganization = typeof organization.$inferInsert;
+
 export const member = pgTable(
   'member',
   {
@@ -103,6 +110,8 @@ export const member = pgTable(
     index('member_userId_idx').on(table.userId),
   ],
 );
+
+export const TypeMember = typeof member.$inferInsert;
 
 export const invitation = pgTable(
   'invitation',

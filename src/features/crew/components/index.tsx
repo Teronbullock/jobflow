@@ -1,2 +1,2 @@
-export * from './crew-status';
-export * from './add-crew-model';
+export { CrewStatus } from './crew-status';
+export { AddCrewModal } from './add-crew-model';

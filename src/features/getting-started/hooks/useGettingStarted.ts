@@ -1,60 +1,51 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
+import { useRouter } from 'next/navigation';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createCompany } from '../actions/gettingStarted.actions';
 import {
-  createCompany,
-  updateUserCompanyId,
-} from '../actions/gettingStarted.actions';
+  CompanyReg,
+  companyRegSchema,
+} from '@/features/getting-started/validation/company-reg';
 
 export const useGettingStarted = () => {
-  const [companyName, setCompanyName] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCompanyName(e.target.value);
-    setError('');
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    reset,
+  } = useForm<CompanyReg>({
+    resolver: zodResolver(companyRegSchema),
+  });
 
-  const handleSubmit = async () => {
-    if (!companyName.trim()) {
-      setError('Company name is required');
-      return;
-    }
-
-    setIsLoading(true);
-    setError('');
-
+  const onSubmit: SubmitHandler<CompanyReg> = async formData => {
     try {
-      const res = await createCompany(companyName);
+      const res = await createCompany(formData.companyName);
 
       if (!res) {
         throw new Error('company not created');
       }
 
-      const user = await updateUserCompanyId(res[0].id);
-
-      if (!user) {
-        throw new Error('company not created for user');
-      }
-
+      router.refresh();
       router.push('/dashboard?tab=schedule');
     } catch (error) {
-      console.error('Failed to create company:', error);
-      setError('Failed to create company. Please try again.');
-    } finally {
-      setIsLoading(false);
+      console.error('Error creating company:', error);
+      setError('root', {
+        type: 'manual',
+        message: 'Error creating company. Please try again.',
+      });
     }
   };
 
   return {
-    companyName,
-    error,
-    isLoading,
-    handleOnChange,
+    register,
     handleSubmit,
+    onSubmit,
+    errors,
+    reset,
   };
 };

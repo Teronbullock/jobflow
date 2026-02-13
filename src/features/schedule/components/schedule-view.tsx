@@ -32,7 +32,7 @@ export function ScheduleView() {
       <div>
         <div className='flex items-center justify-between mb-4'>
           <h2 className='text-lg font-semibold text-foreground'>
-            Today's Jobs
+            Today&apos;s Jobs
             {selectedCrew !== 'all' && (
               <span className='text-muted-foreground font-normal'>
                 {' '}
@@ -88,7 +88,7 @@ export function ScheduleView() {
             need invoicing
           </h3>
           <p className='text-sm text-muted-foreground'>
-            Don't forget to send invoices for completed work to get paid on
+            Don&apos;t forget to send invoices for completed work to get paid on
             time.
           </p>
         </div>

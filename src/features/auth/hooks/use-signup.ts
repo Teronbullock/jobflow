@@ -4,7 +4,10 @@ import { useRouter } from 'next/navigation';
 import { signUp } from '@/lib/auth/auth-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegForm, RegFormSchema } from '@/features/auth/validation/auth.schema';
+import {
+  type RegAuth,
+  regAuthSchema,
+} from '@/features/auth/validation/auth.schema';
 
 export default function useSignUp() {
   const {
@@ -12,13 +15,13 @@ export default function useSignUp() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<RegForm>({
-    resolver: zodResolver(RegFormSchema),
+  } = useForm<RegAuth>({
+    resolver: zodResolver(regAuthSchema),
   });
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<RegForm> = async FormData => {
+  const onSubmit: SubmitHandler<RegAuth> = async FormData => {
     try {
       const { error } = await signUp.email({
         name: FormData.name,

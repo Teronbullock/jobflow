@@ -1,5 +1,5 @@
-import { user } from '@/db/schema/auth.schema';
-import { company, crewMember } from '@/db/schema/company.schema';
+import { organization, member } from '@/db/schema/auth-schema';
+import { client } from '@/db/schema/client-schema';
 import { relations } from 'drizzle-orm';
 import {
   pgTable,
@@ -13,38 +13,39 @@ import {
 
 export const jobs = pgTable('jobs', {
   id: uuid().defaultRandom().primaryKey(),
-  clientName: text('client_name').notNull(),
-  address: text('address'),
+  clientId: text('client_id')
+    .notNull()
+    .references(() => client.id, {
+      onUpdate: 'cascade',
+      onDelete: 'set null',
+    }),
   description: text('description'),
   date: date({ mode: 'date' }),
   time: time().notNull(),
-  assignTo: uuid('assignTo').references(() => crewMember.id, {
+  assignTo: text('assign_to').references(() => member.id, {
     onUpdate: 'cascade',
     onDelete: 'set null',
   }),
   amount: decimal('amount').notNull(),
   status: text('status').default('Scheduled'),
+  organizationId: text('organization_id')
+    .notNull()
+    .references(() => organization.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('created_at').defaultNow().notNull(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  companyId: uuid('company_id')
-    .notNull()
-    .references(() => company.id, { onDelete: 'cascade' }),
 });
 
 export const jobRelations = relations(jobs, ({ one }) => ({
-  company: one(company, {
-    fields: [jobs.companyId],
-    references: [company.id],
+  organization: one(organization, {
+    fields: [jobs.organizationId],
+    references: [organization.id],
   }),
-  crew: one(crewMember, {
+  member: one(member, {
     fields: [jobs.assignTo],
-    references: [crewMember.id],
+    references: [member.id],
   }),
-  user: one(user, {
-    fields: [jobs.userId],
-    references: [user.id],
+  client: one(client, {
+    fields: [jobs.clientId],
+    references: [client.id],
   }),
 }));

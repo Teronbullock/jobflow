@@ -2,8 +2,9 @@ import { betterAuth } from 'better-auth';
 import { nextCookies } from 'better-auth/next-js';
 import { organization } from 'better-auth/plugins';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { owner, admin, member, ac } from '@/features/auth/lib/permissions';
 import { db } from '@db/db';
-import * as schema from '@/db/schema/auth.schema';
+import * as schema from '@/db/schema/auth-schema';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -47,9 +48,18 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [nextCookies(), organization()],
+  plugins: [
+    nextCookies(),
+    organization({
+      ac,
+      roles: {
+        owner,
+        admin,
+        member,
+      },
+    }),
+  ],
 });
 
-export type User = typeof auth.$Infer.Session.user;
-export type Session = typeof auth.$Infer.Session.session;
-export type AuthData = { session: Session; user: User } | null;
+export type Session = typeof auth.$Infer.Session;
+export type Organization = typeof auth.$Infer.Organization;
