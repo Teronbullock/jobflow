@@ -29,9 +29,8 @@ export default async function RootLayout({
   const [session, sessionError] = await getSession();
   const [hasOrg, orgErr] = await hasOrganization();
 
-  if (sessionError || orgErr || !session) {
+  if (sessionError || orgErr) {
     console.error(sessionError);
-    return null;
   }
 
   return (

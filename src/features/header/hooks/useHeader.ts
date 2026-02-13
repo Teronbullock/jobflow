@@ -16,6 +16,7 @@ export function useHeader({ activeTab }: useHeaderProps) {
       return;
     }
     router.push('/dashboard?tab=schedule');
+    router.refresh();
   }
 
   function invoicesHandler() {
@@ -23,11 +24,13 @@ export function useHeader({ activeTab }: useHeaderProps) {
       return;
     }
     router.push('/dashboard?tab=invoices');
+    router.refresh();
   }
 
   function handleRegister() {
     setShowLoginModal(false);
     router.push('/signup');
+    router.refresh();
   }
 
   return {

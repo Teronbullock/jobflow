@@ -122,8 +122,8 @@ export function Header({ sessionData, hasOrg }: HeaderProps) {
                       await signOut({
                         fetchOptions: {
                           onSuccess: () => {
-                            router.refresh();
                             router.push('/');
+                            router.refresh();
                           },
                         },
                       })

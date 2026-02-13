@@ -30,8 +30,8 @@ export const useGettingStarted = () => {
         throw new Error('company not created');
       }
 
-      router.refresh();
       router.push('/dashboard?tab=schedule');
+      router.refresh();
     } catch (error) {
       console.error('Error creating company:', error);
       setError('root', {

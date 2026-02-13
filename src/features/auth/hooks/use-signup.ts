@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { signUp } from '@/lib/auth/auth-client';
+import { signUp } from '@/features/auth/lib/auth-client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -38,8 +38,8 @@ export default function useSignUp() {
         });
         return;
       }
-
       router.push('/getting-started');
+      router.refresh();
     } catch (error) {
       console.error('Network Error:', error);
       setError('root', { type: 'server', message: 'Authentication Failed' });
