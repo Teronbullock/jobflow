@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Plus, Users } from 'lucide-react';
 // import { job } from '@/db/schema/job-schema';
-import { useCrewManger } from '@/features/crew/hooks';
-import { AddCrewModal } from '@/features/crew/components';
+import { useCrewManger } from '@/features/members/hooks';
+import { AddCrewModal } from '@/features/members/components/add-crew-model';
 
 interface CrewStatusProps {
   selectedCrew: string;
@@ -21,12 +21,12 @@ export function CrewStatus({
 
   return (
     <>
-      <div className='flex items-center justify-end gap-2 mb-4'>
+      {/* <div className='flex items-center justify-end gap-2 mb-4'>
         <Button onClick={() => setShowCrew(true)} size='sm'>
           <Plus className='w-4 h-4 mr-1' />
           Add crew
         </Button>
-      </div>
+      </div> */}
 
       <div className='bg-card border border-border rounded-xl p-4'>
         <div className='flex items-center gap-2 mb-4'>

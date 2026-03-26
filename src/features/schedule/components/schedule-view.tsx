@@ -4,7 +4,7 @@ import { JobCard, AddJobModal } from '@/features/jobs/components';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useSchedule } from '../hooks/useSchedule';
-import { CrewStatus } from '@/features/crew/components/index';
+import { CrewStatus } from '@/features/members/components/index';
 
 export function ScheduleView() {
   const {

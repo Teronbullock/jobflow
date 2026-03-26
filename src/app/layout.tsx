@@ -3,8 +3,11 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/features/header';
 import { Providers } from '@/context/jobs-query-provider';
-import TanStackProvider from '@/lib/providers/tanstack.provider';
-import { getSession, hasOrganization } from '@/features/auth/lib/auth-helper';
+import { TanStackProvider } from '@/providers/TanstackProvider';
+import {
+  getSession,
+  getUserOrganization,
+} from '@/features/auth/services/auth.services';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,9 +30,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const [session, sessionError] = await getSession();
-  const [hasOrg, orgErr] = await hasOrganization();
+  const [userOrg, userOrgErr] = await getUserOrganization();
 
-  if (sessionError || orgErr) {
+  if (sessionError || userOrgErr) {
     console.error(sessionError);
   }
 
@@ -40,8 +43,12 @@ export default async function RootLayout({
       >
         <TanStackProvider>
           <Providers>
-            <Header sessionData={session} hasOrg={hasOrg} />
-            {children}
+            <div className='min-h-screen bg-background'>
+              <Header sessionData={session} userOrg={userOrg} />
+              <div className='max-w-7xl mx-auto px-4 min-h-screen'>
+                {children}
+              </div>
+            </div>
           </Providers>
         </TanStackProvider>
       </body>

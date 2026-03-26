@@ -1,17 +1,20 @@
-import { getSession, hasOrganization } from '@/features/auth/lib/auth-helper';
+import {
+  getSession,
+  getUserOrganization,
+} from '@/features/auth/services/auth.services';
 import { redirect } from 'next/navigation';
 import { DashboardClient } from '@/features/dashboard/components/index';
 
 export default async function DashboardPage() {
   const [session, sessionError] = await getSession();
-  const [hasOrg, orgErr] = await hasOrganization();
+  const [userOrg, userOrgErr] = await getUserOrganization();
 
-  if (sessionError || orgErr || !session) {
+  if (sessionError || userOrgErr || !session) {
     console.error(sessionError);
     redirect('/');
   }
 
-  if (!hasOrg || hasOrg.length < 1) {
+  if (!userOrg || userOrg.length < 1) {
     redirect('getting-started');
   }
 

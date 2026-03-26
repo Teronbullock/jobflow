@@ -25,10 +25,10 @@ import { type Session, type Organization } from '@/features/auth/lib/auth';
 
 interface HeaderProps {
   sessionData: Session | null;
-  hasOrg: Organization[] | null;
+  userOrg: Organization[] | null;
 }
 
-export function Header({ sessionData, hasOrg }: HeaderProps) {
+export function Header({ sessionData, userOrg }: HeaderProps) {
   const searchParams = useSearchParams();
   const activeTab = searchParams.get('tab');
 
@@ -56,7 +56,7 @@ export function Header({ sessionData, hasOrg }: HeaderProps) {
           {session ? (
             <>
               <nav className='flex gap-1 bg-muted p-1 rounded-lg'>
-                {hasOrg && hasOrg[0] && (
+                {userOrg && userOrg[0] && (
                   <>
                     <button
                       onClick={() => scheduleHandler()}
