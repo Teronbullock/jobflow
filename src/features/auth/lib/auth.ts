@@ -4,12 +4,17 @@ import { organization } from 'better-auth/plugins';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { owner, admin, member, ac } from '@/features/auth/lib/permissions';
 import { db } from '@db/db';
-import * as schema from '@/db/schema/auth-schema';
+import * as authSchema from '@/db/schema/auth-schema';
+import * as orgSchema from '@/db/schema/organization-schema';
+import { eq } from 'drizzle-orm';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
-    schema: schema,
+    schema: {
+      ...authSchema,
+      ...orgSchema,
+    },
   }),
   emailAndPassword: {
     enabled: true,
@@ -51,6 +56,19 @@ export const auth = betterAuth({
   plugins: [
     nextCookies(),
     organization({
+      allowUserToCreateOrganization: async ({ user }) => {
+        const existingMembership = await db
+          .select()
+          .from(orgSchema.member)
+          .where(eq(orgSchema.member.userId, user.id))
+          .limit(1);
+
+        if (existingMembership) {
+          return false;
+        }
+
+        return true;
+      },
       ac,
       roles: {
         owner,

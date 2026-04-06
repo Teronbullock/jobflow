@@ -1,6 +1,6 @@
 'use server';
 
-import { createCompany, updateUserCompanyId } from '../actions/gettingStarted.actions';
+import { createCompany, updateUserCompanyId } from './gettingStarted-actions';
 import { redirect } from 'next/navigation';
 
 export interface CreateCompanyResult {
@@ -8,7 +8,9 @@ export interface CreateCompanyResult {
   error?: string;
 }
 
-export const createCompanyForUser = async (formData: FormData): Promise<CreateCompanyResult> => {
+export const createCompanyForUser = async (
+  formData: FormData,
+): Promise<CreateCompanyResult> => {
   const companyName = formData.get('companyName') as string;
 
   if (!companyName || !companyName.trim()) {
@@ -39,7 +41,7 @@ export const createCompanyForUser = async (formData: FormData): Promise<CreateCo
 
     // Redirect after successful creation
     redirect('/dashboard?tab=schedule');
-    
+
     // This return is just to satisfy TypeScript since redirect throws an error internally
     return {
       success: true,

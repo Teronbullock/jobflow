@@ -1,8 +1,8 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { JobsProvider } from '@/context/jobs-context';
-import { ScheduleView } from '@/features/schedule/components/schedule-view';
-import { InvoiceView } from '@/features/invoice/components/invoice-view';
+import { ScheduleView } from '@/features/schedule/components/ScheduleView';
+import { InvoiceView } from '@/features/invoice/components/InvoiceView';
 
 export function DashboardClient() {
   const searchParams = useSearchParams();

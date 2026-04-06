@@ -1,5 +1,5 @@
 export { MembersView } from './components';
-export { useAddMember } from './hooks/use-add-member';
+export { useAddMember } from './hooks/useAddMember';
 export {
   getMembers,
   inviteMember,

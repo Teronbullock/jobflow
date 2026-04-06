@@ -1,4 +1,4 @@
-import { organization, member } from '@/db/schema/auth-schema';
+import { organization, member } from '@/db/schema/organization-schema';
 import { client } from '@/db/schema/client-schema';
 import { relations } from 'drizzle-orm';
 import {

@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/features/auth/lib/auth';
 import { headers } from 'next/headers';
 import { RegAuth, type BaseAuth } from '@/features/auth/validation/auth.schema';
 import { refresh } from 'next/cache';

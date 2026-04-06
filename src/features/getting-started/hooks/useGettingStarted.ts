@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createCompany } from '../actions/gettingStarted.actions';
+import { createCompany } from '../actions/gettingStarted-actions';
 import {
   CompanyReg,
   companyRegSchema,
@@ -22,20 +22,19 @@ export const useGettingStarted = () => {
   } = useForm<CompanyReg>({
     resolver: zodResolver(companyRegSchema),
   });
-  console.log('watch', watch);
+
   const onSubmit: SubmitHandler<CompanyReg> = async formData => {
-    console.log('formData', formData);
     reset();
-    return;
+
     try {
-      // const res = await createCompany(formData.companyName);
+      const res = await createCompany(formData.companyName);
 
       if (!res) {
         throw new Error('company not created');
       }
 
-      // router.push('/dashboard?tab=schedule');
-      // router.refresh();
+      router.push('/dashboard?tab=schedule');
+      router.refresh();
     } catch (error) {
       console.error('Error creating company:', error);
       setError('root', {

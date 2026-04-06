@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, Users } from 'lucide-react';
 // import { job } from '@/db/schema/job-schema';
 import { useCrewManger } from '@/features/members/hooks';
-import { AddCrewModal } from '@/features/members/components/add-crew-model';
+import { AddCrewModal } from '@/features/members/components/AddCrewModel';
 
 interface CrewStatusProps {
   selectedCrew: string;

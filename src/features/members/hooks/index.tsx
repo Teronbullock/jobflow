@@ -1,5 +1,6 @@
-export { useCrewManger } from './use-crew-manager';
-export { useCrewModal } from './use-crew-modal';
-export { useAddMember } from './use-add-member';
-export { useFetchMembers } from './use-fetch-members';
-export { useManageMember } from './use-manage-member';
+export { useCrewManger } from './useCrewManager';
+export { useCrewModal } from './useCrewModal';
+export { useAddMember } from './useAddMember';
+export { useFetchMembers } from './useFetchMembers';
+export { useManageMember } from './useManageMember';
+export { useAddMemberModal } from './useAddMemberModal';

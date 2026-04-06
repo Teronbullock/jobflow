@@ -1,8 +1,8 @@
 'use client';
 
-import { useAddMember, useFetchMembers, useManageMember } from '../hooks';
-import { AddMemberModal } from './add-member-modal';
-import { EditMemberModal } from './edit-member-modal';
+import { useFetchMembers, useManageMember, useAddMemberModal } from '../hooks';
+import { AddMemberModal } from './AddMemberModal';
+import { EditMemberModal } from './EditMemberModal';
 
 interface MembersViewProps {
   orgId: string;
@@ -12,10 +12,7 @@ export function MembersView({ orgId }: MembersViewProps) {
   const { members, isPending } = useFetchMembers({ orgId });
   const { editingMember, setEditingMember, handleUpdateRole, handleRemove } =
     useManageMember();
-
-  const { addModalOpen, setAddModalOpen, handleInvite } = useAddMember({
-    orgId,
-  });
+  const { addModalOpen, setAddModalOpen } = useAddMemberModal();
 
   return (
     <>
@@ -102,12 +99,7 @@ export function MembersView({ orgId }: MembersViewProps) {
         )}
       </div>
 
-      {addModalOpen && (
-        <AddMemberModal
-          onClose={() => setAddModalOpen(false)}
-          onSubmit={handleInvite}
-        />
-      )}
+      <AddMemberModal modalStatus={{ addModalOpen, setAddModalOpen }} />
 
       {editingMember && (
         <EditMemberModal

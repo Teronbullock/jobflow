@@ -1,7 +1,7 @@
 import {
   getSession,
   getUserOrganization,
-} from '@/features/auth/services/auth.services';
+} from '@/features/auth/services/auth-services';
 import { redirect } from 'next/navigation';
 import { DashboardClient } from '@/features/dashboard/components/index';
 

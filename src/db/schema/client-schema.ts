@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
-import { organization } from '@/db/schema/auth-schema';
+import { organization } from '@/db/schema/organization-schema';
 
 export const client = pgTable('client', {
   id: text('id').primaryKey(),

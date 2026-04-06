@@ -1,2 +1,2 @@
-export * from './add-job-modal';
-export * from './job-card';
+export * from './AddJobModal';
+export * from './JobCard';
