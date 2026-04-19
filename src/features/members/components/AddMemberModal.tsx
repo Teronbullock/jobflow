@@ -13,7 +13,7 @@ interface AddMemberModalProps {
 }
 
 export function AddMemberModal({ modalStatus }: AddMemberModalProps) {
-  const { addModalOpen } = modalStatus;
+  const { addModalOpen, setAddModalOpen } = modalStatus;
   const [mode, setMode] = useState<ModalMode>('add');
 
   const {
@@ -23,7 +23,7 @@ export function AddMemberModal({ modalStatus }: AddMemberModalProps) {
     errors,
     handleClose,
     isSubmitting,
-  } = useAddMember();
+  } = useAddMember({ mode, setAddModalOpen });
 
   if (!addModalOpen) return null;
 
@@ -133,7 +133,7 @@ export function AddMemberModal({ modalStatus }: AddMemberModalProps) {
                   className='w-full rounded-md border border-border bg-background px-3 py-2 text-foreground'
                   {...register('password')}
                 />
-                {errors.password && (
+                {'password' in errors && errors.password && (
                   <p className='mt-1 text-sm text-destructive'>
                     {errors.password.message}
                   </p>

@@ -7,7 +7,7 @@ import { TanStackProvider } from '@/providers/TanstackProvider';
 import {
   getSession,
   getUserOrganization,
-} from '@/features/auth/services/auth-services';
+} from '@/features/auth/services/auth.service';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

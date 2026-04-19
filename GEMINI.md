@@ -1,1 +1,1 @@
-See AGENTS.md for all project rules, architecture constraints, and domain knowledge.
+ln -s AGENTS.md GEMINI.md

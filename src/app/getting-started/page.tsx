@@ -2,7 +2,7 @@ import { GettingStartedForm } from '@/features/getting-started/components/gettin
 import {
   getSession,
   getUserOrganization,
-} from '@/features/auth/services/auth-services';
+} from '@/features/auth/services/auth.service';
 import { redirect } from 'next/navigation';
 
 export default async function gettingStartedPage() {

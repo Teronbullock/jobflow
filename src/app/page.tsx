@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { getSession } from '@/features/auth/services/auth-services';
+import { getSession } from '@/features/auth/services/auth.service';
 import { redirect } from 'next/navigation';
 
 const [session, sessionError] = await getSession();

@@ -2,48 +2,61 @@
 
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { inviteMember } from '../actions/members.actions';
-import { useAddMemberModal } from './useAddMemberModal';
+import { inviteMember, addMember } from '../actions/members.actions';
+import { addMemberAction } from '@/features/auth/actions/auth-actions';
 import {
+  addMemberSchema,
   inviteMemberSchema,
+  type AddMemberForm,
   type InviteMemberForm,
 } from '../validation/member.schema';
 
-export const useAddMember = () => {
-  const { addModalOpen, setAddModalOpen } = useAddMemberModal();
+type AddMemberMode = 'add' | 'invite';
 
+interface UseAddMemberProps {
+  mode: AddMemberMode;
+  setAddModalOpen: (open: boolean) => void;
+}
+
+export const useAddMember = ({ mode, setAddModalOpen }: UseAddMemberProps) => {
   const {
     register,
     handleSubmit,
     setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<InviteMemberForm>({
-    resolver: zodResolver(inviteMemberSchema),
+  } = useForm<AddMemberForm | InviteMemberForm>({
+    resolver: zodResolver(
+      mode === 'add' ? addMemberSchema : inviteMemberSchema,
+    ),
     defaultValues: { role: 'member' },
   });
 
-  const onFormSubmit: SubmitHandler<InviteMemberForm> = async data => {
-    const result = await inviteMember(data);
-    if (result.success) {
-      setAddModalOpen(false);
-      reset();
-    } else {
-      setError('root', { message: result.error ?? 'Something went wrong' });
-    }
-    return result;
-  };
+  const onFormSubmit: SubmitHandler<
+    AddMemberForm | InviteMemberForm
+  > = async data => {
+    try {
+      if (mode === 'add') {
+        const result = await addMemberAction(data as AddMemberForm);
 
-  const handleInvite = async (form: {
-    name: string;
-    email: string;
-    role: string;
-  }) => {
-    const result = await inviteMember(form);
-    if (result.success) {
-      setAddModalOpen(false);
+        if (result.success) {
+          setAddModalOpen(false);
+          reset();
+        } else {
+          setError('root', { message: result.error ?? 'Something went wrong' });
+        }
+      } else {
+        const result = await inviteMember(data as InviteMemberForm);
+        if (result.success) {
+          setAddModalOpen(false);
+          reset();
+        } else {
+          setError('root', { message: result.error ?? 'Something went wrong' });
+        }
+      }
+    } catch {
+      setError('root', { message: 'Something went wrong' });
     }
-    return result;
   };
 
   const handleClose = () => {
@@ -52,9 +65,6 @@ export const useAddMember = () => {
   };
 
   return {
-    addModalOpen,
-    setAddModalOpen,
-    handleInvite,
     register,
     handleSubmit,
     onFormSubmit,

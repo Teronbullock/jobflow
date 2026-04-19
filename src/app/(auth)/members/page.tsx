@@ -7,7 +7,7 @@ import {
 import {
   getSession,
   getUserOrganization,
-} from '@/features/auth/services/auth-services';
+} from '@/features/auth/services/auth.service';
 import { getMembers } from '@/features/members/actions/members.actions';
 import { MembersView } from '@/features/members/components';
 

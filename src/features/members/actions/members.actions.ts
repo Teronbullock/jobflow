@@ -2,6 +2,10 @@
 
 import { headers } from 'next/headers';
 import { auth } from '@/features/auth/lib/auth';
+import {
+  addMemberSchema,
+  type AddMemberForm,
+} from '../validation/member.schema';
 import type { MembersResponse } from '../types';
 
 export const getMembers = async (
@@ -45,6 +49,35 @@ export const inviteMember = async (form: {
   } catch (err) {
     const message =
       err instanceof Error ? err.message : 'Failed to invite member';
+    return { success: false, error: message };
+  }
+};
+
+export const addMember = async (form: AddMemberForm) => {
+  try {
+    const parsed = addMemberSchema.safeParse(form);
+
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: parsed.error,
+      };
+    }
+
+    const userSignup = await auth.api.signUpEmail({});
+
+    await auth.api.addMember({
+      body: {
+        name: parsed.name,
+        email: parsed.email,
+        password: parsed.password,
+        role: [parsed.role],
+      },
+      headers: await headers(),
+    });
+    return { success: true, error: null };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Failed to add member';
     return { success: false, error: message };
   }
 };
